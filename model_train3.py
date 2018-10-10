@@ -20,25 +20,25 @@ Y = train_by_zero['tag']
 X = train_by_zero.iloc[:,3:5081]
 train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=0)
 
-
-tuned_parameters= [{'n_estimators':[100,200,500],
-                  'max_depth':[3,5,7], ##range(3,10,2)
-                  'learning_rate':[0.5, 1.0],
-                  'subsample':[0.75,0.8,0.85,0.9]
-                  }]
+#
+#tuned_parameters= [{'n_estimators':[100,200,500],
+#                  'max_depth':[3,5,7], ##range(3,10,2)
+#                  'learning_rate':[0.5, 1.0],
+#                  'subsample':[0.75,0.8,0.85,0.9]
+#                  }]
 tuned_parameters= [{'n_estimators':[100,200,500,1000]
                   }]
                   
-train_param = {'max_depth':6,
-               'learning_rate':0.3, 
+train_param = {'max_depth':6,       # 树深度
+               'learning_rate':0.3, # 学习率
                'nthread':4,
-               'min_child_weight':1,
+               'min_child_weight':1, #叶子节点最小权重
                'gamma':0.1,
-               'subsample':1,
-               'reg_lambda':1,
-#               'reg_alpha':0,
-               'n_estimators':100,
-               'scale_pos_weight':1,
+               'subsample':1,       # 全部的样本进行训练
+               'reg_lambda':1,      # 正则话参数
+               'colsample_btree':0.8,  # 80%的特征
+               'n_estimators':100,    
+               'scale_pos_weight':2,   ## 正负样本比例
                'seed':100
                }
                   

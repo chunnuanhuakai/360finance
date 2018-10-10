@@ -3,6 +3,7 @@ from sklearn import metrics
 from xgboost import XGBClassifier
 import pandas as pd
 from sklearn.metrics import accuracy_score
+from sklearn.externals import joblib
 
 ## 总样本
 root = "E:\\liuhongbing\\360finance\\open_data_train_valid1\\open_data_train_valid\\train\\";
@@ -20,14 +21,29 @@ train_param = {'max_depth':6,
                'subsample':1,
                'reg_lambda':1,
 #               'reg_alpha':0,
-               'n_estimators':100,
-               'scale_pos_weight':1,
+               'n_estimators':150,
+               'scale_pos_weight':2,
                'seed':100
                }
 clf = XGBClassifier(**train_param)
+
 clf.fit(train_x,train_y)
 pred_y = clf.predict(test_x)
 
 
 accuracy = accuracy_score(test_y, pred_y)
 print("accuarcy: %.2f%%" % (accuracy*100.0))
+
+
+## 模型报存
+joblib.dump(clf, root + 'xgboost.model_100')
+## 加载模型
+clf2 = joblib.load(root + 'xgboost.model_100')
+
+## 准确率
+pred_y2 = clf2.predict(test_x)
+accuracy = accuracy_score(test_y, pred_y2)
+print("accuarcy: %.2f%%" % (accuracy*100.0))
+print('150_accuracy : 85.88%')
+print('200_accuracy: 85.62%')
+print('100_accuracy: 85.24%')
